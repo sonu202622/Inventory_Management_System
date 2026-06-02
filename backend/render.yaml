@@ -1,12 +1,20 @@
 services:
   - type: web
     name: inventory-backend
-    env: python
+    runtime: python
+    plan: free
+    region: oregon
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: inventory-db
+          property: connectionString
       - key: ALLOWED_ORIGINS
-        sync: false
+        value: https://inventory-frontend.onrender.com
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRE_HOURS
+        value: "24"

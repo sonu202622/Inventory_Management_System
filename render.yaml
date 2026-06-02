@@ -1,0 +1,50 @@
+services:
+  - type: web
+    name: inventory-backend
+    runtime: python
+    repo: https://github.com/sonu202622/Inventory_Management_System.git
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: inventory-db
+          property: connectionString
+      - key: ALLOWED_ORIGINS
+        value: https://inventory-frontend.onrender.com
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRE_HOURS
+        value: "24"
+
+  - type: web
+    name: inventory-frontend
+    runtime: static
+    repo: https://github.com/sonu202622/Inventory_Management_System.git
+    plan: free
+    region: oregon
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://inventory-backend.onrender.com
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+
+databases:
+  - name: inventory-db
+    plan: free
+    region: oregon
+    databaseName: inventory_db
+    user: inventory_user
+    ipAllowList: []
