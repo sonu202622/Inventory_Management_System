@@ -3,8 +3,7 @@ services:
     name: inventory-backend
     runtime: python
     repo: https://github.com/sonu202622/Inventory_Management_System.git
-    plan: free
-    region: oregon
+    region: frankfurt
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
@@ -21,30 +20,20 @@ services:
       - key: ACCESS_TOKEN_EXPIRE_HOURS
         value: "24"
 
-  - type: web
+  - type: static_site
     name: inventory-frontend
-    runtime: static
     repo: https://github.com/sonu202622/Inventory_Management_System.git
-    plan: free
-    region: oregon
     rootDir: frontend
     buildCommand: npm ci && npm run build
-    staticPublishPath: ./dist
+    publishDir: dist
     envVars:
       - key: VITE_API_URL
         value: https://inventory-backend.onrender.com
-    headers:
-      - path: /*
-        name: X-Frame-Options
-        value: DENY
-      - path: /*
-        name: X-Content-Type-Options
-        value: nosniff
 
 databases:
   - name: inventory-db
     plan: free
-    region: oregon
+    region: frankfurt
     databaseName: inventory_db
     user: inventory_user
     ipAllowList: []
