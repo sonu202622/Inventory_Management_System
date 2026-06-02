@@ -1,5 +1,7 @@
 # Inventory & Order Management System
 
+[![Docker Hub](https://img.shields.io/badge/Docker-Hub-blue?logo=docker)](https://hub.docker.com/r/sonu2026/inventory-backend)
+
 A full-stack application for managing inventory and customer orders.
 
 ## Tech Stack
@@ -32,6 +34,9 @@ npm run dev
 ## Docker
 
 ```bash
+# Pull the backend image from Docker Hub
+docker pull sonu2026/inventory-backend:latest
+
 # Build and start all services
 docker compose up --build
 

@@ -27,6 +27,9 @@ yarn-error.log*
 .next/
 dist/
 
+# Environment
+.env
+
 # Docker
 .docker/
 docker-compose.override.yml
