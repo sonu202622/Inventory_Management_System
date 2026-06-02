@@ -20,16 +20,6 @@ services:
       - key: ACCESS_TOKEN_EXPIRE_HOURS
         value: "24"
 
-  - type: static_site
-    name: inventory-frontend
-    repo: https://github.com/sonu202622/Inventory_Management_System.git
-    rootDir: frontend
-    buildCommand: npm ci && npm run build
-    publishDir: dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://inventory-backend.onrender.com
-
 databases:
   - name: inventory-db
     plan: free
