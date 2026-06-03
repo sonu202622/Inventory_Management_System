@@ -18,7 +18,9 @@ services:
 
   backend:
     # image: sonu2026/inventory-backend:latest
-    build: ./backend
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
     container_name: inventory-backend
     restart: unless-stopped
     env_file: .env
